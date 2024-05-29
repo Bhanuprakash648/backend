@@ -10,22 +10,20 @@ const upload = multer();
 
 router.post(
   '/',
-  admin,
   upload.single('image'),
   handler(async (req, res) => {
     const file = req.file;
     if (!file) {
       res.status(BAD_REQUEST).send();
       return;
-    }
-
+    } 
     const imageUrl = await uploadImageToCloudinary(req.file?.buffer);
-    res.send({ imageUrl });
+    res.send(imageUrl);
   })
 );
 
 const uploadImageToCloudinary = imageBuffer => {
-  const cloudinary = configCloudinary();
+  const cloudinary = configCloudinary();  
 
   return new Promise((resolve, reject) => {
     if (!imageBuffer) reject(null);

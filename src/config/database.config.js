@@ -43,7 +43,7 @@ async function seedFoods() {
     return;
   }
   for (const food of sample_foods) {
-    food.imageUrl = `/foods/${food.imageUrl}`;
+    food.imageUrl = `${food.imageUrl}`;
     await FoodModel.create(food);
   }
 
