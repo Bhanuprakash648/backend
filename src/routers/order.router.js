@@ -1,11 +1,13 @@
 import { Router } from 'express';
 import handler from 'express-async-handler';
+import crypto from 'crypto';
 import auth from '../middleware/auth.mid.js';
 import { BAD_REQUEST } from '../constants/httpStatus.js';
 import { OrderModel } from '../models/order.model.js';
 import { OrderStatus } from '../constants/orderStatus.js';
 import { UserModel } from '../models/user.model.js';
 import { sendEmailReceipt } from '../helpers/mail.helper.js';
+import { razorpayInstance } from '../config/razor.config.js';
 
 const router = Router();
 router.use(auth);
@@ -27,6 +29,28 @@ router.post(
     res.send(newOrder);
   })
 );
+
+router.post('/razorpay',async(req,res)=>{
+  const {amount}=req.body;
+  try{
+    const options={
+      amount:Number(amount*100),
+      currency:"INR",
+      receipt: crypto.randomBytes(10).toString("hex")
+    }
+      razorpayInstance.orders.create(options,(err,order)=>{
+        if(err){
+          return res.status(500).json({message:err.message});
+        }
+        console.log(order)
+        res.status(200).json({
+          data:order
+        })
+      })
+  }catch(err){
+    res.status(500).json({message:err.message});
+  }
+})
 
 router.put(
   '/pay',
