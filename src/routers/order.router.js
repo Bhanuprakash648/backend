@@ -34,7 +34,7 @@ router.post('/razorpay',async(req,res)=>{
   const {amount}=req.body;
   try{
     const options={
-      amount:Number(amount*100),
+      amount:Number(amount),
       currency:"INR",
       receipt: crypto.randomBytes(10).toString("hex")
     }
