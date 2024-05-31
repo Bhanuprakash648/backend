@@ -132,7 +132,7 @@ router.get(
   '/:foodId',
   handler(async (req, res) => {
     const { foodId } = req.params;
-    const food = await FoodModel.findOne({id:foodId});
+    const food = await FoodModel.findById(foodId);
     res.send(food);
   })
 );
