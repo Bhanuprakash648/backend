@@ -52,6 +52,28 @@ router.post('/razorpay',async(req,res)=>{
   }
 })
 
+
+router.post('/verify', async (req, res) => {
+  const { razorpay_order_id, razorpay_payment_id, razorpay_signature } = req.body;
+
+  try {
+      const sign = razorpay_order_id + "|" + razorpay_payment_id;
+
+      const expectedSign = crypto.createHmac("sha256", process.env.RAZORPAY_SECRET)
+          .update(sign.toString())
+          .digest("hex");
+      const isAuthentic = expectedSign === razorpay_signature;
+      if (isAuthentic) {
+          res.json({
+              paymentId:razorpay_payment_id
+          });
+      }
+  } catch (error) {
+      res.status(500).json({ message: "Internal Server Error!" });
+      console.log(error);
+  }
+})
+
 router.put(
   '/pay',
   handler(async (req, res) => {
