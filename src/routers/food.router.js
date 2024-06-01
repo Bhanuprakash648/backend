@@ -17,7 +17,7 @@ router.post(
   '/',
   admin,
   handler(async (req, res) => {
-    const { name, price, tags, favorite, imageUrl, origins, cookTime } =
+    const { name, price, tags, favorite, imageUrl, des, cookTime } =
       req.body;
 
     const food = new FoodModel({
@@ -26,7 +26,7 @@ router.post(
       tags: tags.split ? tags.split(',') : tags,
       favorite,
       imageUrl,
-      origins: origins.split ? origins.split(',') : origins,
+      des,
       cookTime,
     });
 
@@ -40,7 +40,7 @@ router.put(
   '/',
   admin,
   handler(async (req, res) => {
-    const { id, name, price, tags, favorite, imageUrl, origins, cookTime } =
+    const { id, name, price, tags, favorite, imageUrl, des, cookTime } =
       req.body;
 
     await FoodModel.updateOne(
@@ -51,7 +51,7 @@ router.put(
         tags: tags.split ? tags.split(',') : tags,
         favorite,
         imageUrl,
-        origins: origins.split ? origins.split(',') : origins,
+        des,
         cookTime,
       }
     );
