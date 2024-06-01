@@ -19,7 +19,7 @@ app.use(express.json());
 app.use(
   cors({
     credentials: true,
-    origin: ['https://665b2710b78f70b4e06c2cd0--vocal-starship-37d1cc.netlify.app/'],
+    origin: ['https://665b2710b78f70b4e06c2cd0--vocal-starship-37d1cc.netlify.app'],
   })
 );
 
