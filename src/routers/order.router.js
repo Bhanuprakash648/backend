@@ -2,6 +2,7 @@ import { Router } from 'express';
 import handler from 'express-async-handler';
 import crypto from 'crypto';
 import auth from '../middleware/auth.mid.js';
+import adminMid from '../middleware/admin.mid.js';
 import { BAD_REQUEST } from '../constants/httpStatus.js';
 import { OrderModel } from '../models/order.model.js';
 import { OrderStatus } from '../constants/orderStatus.js';
