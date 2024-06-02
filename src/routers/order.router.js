@@ -94,6 +94,21 @@ router.put(
   })
 );
 
+router.put(
+  '/delivered',
+  handler(async (req, res) => {
+    const orderId  = req.body.orderId;
+    const order = await OrderModel.findById(orderId);
+    if (!order) {
+      res.status(BAD_REQUEST).send('Order Not Found!');
+      return;
+    }
+    order.status = OrderStatus.DELIVERED;
+    await order.save();
+    res.send(order._id);
+  })
+);
+
 router.get(
   '/track/:orderId',
   handler(async (req, res) => {
