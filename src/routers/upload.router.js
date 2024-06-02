@@ -6,6 +6,8 @@ import {OrderModel } from '../models/order.model.js'
 import { BAD_REQUEST } from '../constants/httpStatus.js';
 import { configCloudinary } from '../config/cloudinary.config.js';
 import {OrderStatus } from '../constants/orderStatus.js';
+import { DeliveryEmailReceipt} from '../helpers/mail.delivery.js'
+import {sendEmailReceipt} from '../helpers/mail.helper.js';
 
 const router = Router();
 const upload = multer();
@@ -15,18 +17,13 @@ router.put(
   admin,
   handler(async (req, res) => {
     const { orderId } = req.params;
-
-    // Check if the order exists
-    const order = await OrderModel.findById(orderId);
+    const order = await OrderModel.findById(orderId).populate('user');
     if (!order) {
       return res.status(404).json({ message: 'Order not found' });
     }
-
-    // Update the status to "delivered"
     order.status = OrderStatus.DELIVERED;
     await order.save();
-
-    // Return the updated order
+    DeliveryEmailReceipt(order);
     res.json({ message: 'Order status updated successfully', order });
   })
 );

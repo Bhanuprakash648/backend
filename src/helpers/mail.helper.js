@@ -1,4 +1,3 @@
-import { getClient } from '../config/mail.config.js';
 import nodemailer from 'nodemailer';
 
 export const sendEmailReceipt =async (order)=> {
