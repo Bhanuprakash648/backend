@@ -111,6 +111,27 @@ router.put(
   })
 );
 
+router.put(
+  '/updateStatus/:orderId',
+  admin,
+  handler(async (req, res) => {
+    const { orderId } = req.params;
+
+    // Check if the order exists
+    const order = await OrderModel.findById(orderId);
+    if (!order) {
+      return res.status(404).json({ message: 'Order not found' });
+    }
+
+    // Update the status to "delivered"
+    order.status = OrderStatus.DELIVERED;
+    await order.save();
+
+    // Return the updated order
+    res.json({ message: 'Order status updated successfully', order });
+  })
+);
+
 router.get(
   '/track/:orderId',
   handler(async (req, res) => {
