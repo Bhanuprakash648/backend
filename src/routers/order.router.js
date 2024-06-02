@@ -96,6 +96,7 @@ router.put(
 
 router.put(
   '/delivered',
+  admin,
   handler(async (req, res) => {
     const orderId  = req.body.orderId;
     const order = await OrderModel.findById(orderId);
@@ -105,7 +106,7 @@ router.put(
     }
     order.status = OrderStatus.DELIVERED;
     await order.save();
-    res.send(order._id);
+    res.send(order.status);
   })
 );
 
