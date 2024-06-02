@@ -19,7 +19,7 @@ app.use(express.json());
 app.use(
   cors({
     credentials: true,
-    origin: ['https://bossburgerb6.netlify.app',"https://localhost/5173"],
+    origin: ['https://bossburgerb6.netlify.app',"http://localhost:5173/"],
   })
 );
 
